@@ -36,7 +36,7 @@ class RhythmHeavenMegamixGame(Game):
             GameObjectiveTemplate(
                 label="Achieve RESULT in GAME",
                 data={
-                    "RESULT": (self.results, 1),
+                    "RESULT": (self.resultstar, 1),
                     "GAME": (self.earth_world_games, 1),
                 },
                 is_time_consuming=False,
@@ -56,9 +56,10 @@ class RhythmHeavenMegamixGame(Game):
             ),
             
             GameObjectiveTemplate(
-                label="Achieve OK or better in all games in SERIES",
+                label="Achieve RESULT in all games in SERIES",
                 data={
-                    "SERIES": (self.earth_world_series, 1)
+                    "RESULT": (self.results, 1),
+                    "SERIES": (self.earth_world_series, 1),
                 },
                 is_time_consuming=False,
                 is_difficult=False,
@@ -114,7 +115,7 @@ class RhythmHeavenMegamixGame(Game):
                 GameObjectiveTemplate(
                     label="Achieve RESULT in GAME",
                     data={
-                        "RESULT": (self.results, 1),
+                        "RESULT": (self.resultstar, 1),
                         "GAME": (self.heaven_world_games, 1),
                     },
                     is_time_consuming=False,
@@ -134,11 +135,12 @@ class RhythmHeavenMegamixGame(Game):
                 ),
                 
                 GameObjectiveTemplate(
-                    label="Achieve OK or better in all games in SERIES",
+                    label="Achieve RESULT in all games in SERIES",
                     data={
+                        "RESULT": (self.results, 1),
                         "SERIES": (self.heaven_world_series, 1),
                     },
-                    is_time_consuming=False,
+                    is_time_consuming=True,
                     is_difficult=False,
                     weight=20,
                 ),
@@ -186,7 +188,7 @@ class RhythmHeavenMegamixGame(Game):
                 GameObjectiveTemplate(
                     label="Achieve RESULT in GAME",
                     data={
-                        "RESULT": (self.results, 1),
+                        "RESULT": (self.resultstar, 1),
                         "GAME": (self.shop_games, 1),
                     },
                     is_time_consuming=False,
@@ -229,7 +231,7 @@ class RhythmHeavenMegamixGame(Game):
                     },
                     is_time_consuming=False,
                     is_difficult=False,
-                    weight=10,
+                    weight=7,
                 ),
                 
                 GameObjectiveTemplate(
@@ -239,7 +241,7 @@ class RhythmHeavenMegamixGame(Game):
                     },
                     is_time_consuming=False,
                     is_difficult=False,
-                    weight=5,
+                    weight=3,
                 ),
                 
                 GameObjectiveTemplate(
@@ -249,7 +251,17 @@ class RhythmHeavenMegamixGame(Game):
                     },
                     is_time_consuming=False,
                     is_difficult=False,
-                    weight=10,
+                    weight=7,
+                ),
+                
+                GameObjectiveTemplate(
+                    label="Complete CHALLENGE in Saltwater World",
+                    data={
+                        "CHALLENGE": (self.saltwater_long_challenges, 1),
+                    },
+                    is_time_consuming=True,
+                    is_difficult=False,
+                    weight=5,
                 ),
                 
                 GameObjectiveTemplate(
@@ -259,7 +271,17 @@ class RhythmHeavenMegamixGame(Game):
                     },
                     is_time_consuming=False,
                     is_difficult=True,
-                    weight=5,
+                    weight=1,
+                ),
+                
+                GameObjectiveTemplate(
+                    label="Complete CHALLENGE in Saltwater World",
+                    data={
+                        "CHALLENGE": (self.saltwater_long_hard_challenges, 1),
+                    },
+                    is_time_consuming=True,
+                    is_difficult=True,
+                    weight=2,
                 ),
                 
                 GameObjectiveTemplate(
@@ -269,7 +291,17 @@ class RhythmHeavenMegamixGame(Game):
                     },
                     is_time_consuming=False,
                     is_difficult=True,
-                    weight=10,
+                    weight=5,
+                ),
+                
+                GameObjectiveTemplate(
+                    label="Complete CHALLENGE in Paprika World",
+                    data={
+                        "CHALLENGE": (self.paprika_long_challenges, 1),
+                    },
+                    is_time_consuming=True,
+                    is_difficult=True,
+                    weight=6,
                 ),
                 
                 GameObjectiveTemplate(
@@ -279,7 +311,17 @@ class RhythmHeavenMegamixGame(Game):
                     },
                     is_time_consuming=False,
                     is_difficult=True,
-                    weight=5,
+                    weight=2,
+                ),
+                
+                GameObjectiveTemplate(
+                    label="Complete CHALLENGE in Paprika World",
+                    data={
+                        "CHALLENGE": (self.paprika_long_hard_challenges, 1),
+                    },
+                    is_time_consuming=True,
+                    is_difficult=True,
+                    weight=2,
                 ),
             ])
             
@@ -303,6 +345,13 @@ class RhythmHeavenMegamixGame(Game):
 
     @staticmethod
     def results() -> List[str]:
+        return [
+            "OK or better",
+            "Superb or better",
+        ]
+
+    @staticmethod
+    def resultstar() -> List[str]:
         return [
             "OK or better",
             "OK or better",
@@ -413,14 +462,14 @@ class RhythmHeavenMegamixGame(Game):
             "Freeze Frame (Star Land)",
             "Launch Party (Star Land)",
             "Pajama Party (Star Land)",
-            "Marching Orders (Planet Land)",
-            "Munchy Monk (Planet Land)",
-            "See-Saw (Planet Land)",
-            "Blue Bear (Planet Land)",
-            "Space Dance (Comet Land)",
-            "Lockstep (Comet Land)",
-            "Cheer Readers (Comet Land)",
-            "Kitties! (Comet Land)",
+            "Marching Orders (Comet Land)",
+            "Munchy Monk (Comet Land)",
+            "See-Saw (Comet Land)",
+            "Blue Bear (Comet Land)",
+            "Space Dance (Planet Land)",
+            "Lockstep (Planet Land)",
+            "Cheer Readers (Planet Land)",
+            "Kitties! (Planet Land)",
             "The Snappy Trio (Left-Hand Tower)",
             "Fan Club 2 (Left-Hand Tower)",
             "Figure Fighter 3 (Left-Hand Tower)",
@@ -442,8 +491,8 @@ class RhythmHeavenMegamixGame(Game):
     def heaven_world_series() -> List[str]:
         return [
             "Star Land",
-            "Planet Land",
             "Comet Land",
+            "Planet Land",
             "Left-Hand Tower",
             "Right-Hand Tower",
             "Tibby's Mom",
@@ -501,20 +550,31 @@ class RhythmHeavenMegamixGame(Game):
             "Round Object Fan Club",
             "Factory Tourism",
             "On the Job",
-            "Getting Vocal",
-            "Be a Good Sport",
-            "So Many Monkeys!",
             "Monster Maw 2",
-            "Remix Medley",
-            "That's Show Biz!",
         ]
     
     @staticmethod
+    def saltwater_long_challenges() -> List[str]:
+        return [
+            
+            "Getting Vocal",
+            "Be a Good Sport",
+            "So Many Monkeys!",
+            "Remix Medley",
+            "That's Show Biz!",
+        ]
+        
+    @staticmethod
     def saltwater_hard_challenges() -> List[str]:
+        return [
+            "Game Gamble: Intermediate (Super Hard!)",
+        ]
+        
+    @staticmethod
+    def saltwater_long_hard_challenges() -> List[str]:
         return [
             "Extreme Sports (Super Hard!)",
             "Super Remix Medley (Super Hard!)",
-            "Game Gamble: Intermediate (Super Hard!)",
         ]
     
     @staticmethod
@@ -523,23 +583,33 @@ class RhythmHeavenMegamixGame(Game):
             "All or Nothing!",
             "Demon Slayer",
             "Tales of Romance",
+            "Wario...Where?",
+            "Wario...Where? 2: The Sequel",
+        ]
+    
+    @staticmethod
+    def paprika_long_challenges() -> List[str]:
+        return [
             "Karate Man vs. the Monster",
             "Group Activity 2",
             "Getting Vocal 2",
             "Spaaaaaaaaaaaaaaace!",
             "Rhythm Safari",
             "Hello, Ladies...",
-            "Wario...Where?",
-            "Wario...Where? 2: The Sequel",
         ]
     
     @staticmethod
     def paprika_hard_challenges() -> List[str]:
         return [
-            "Back and So Forth (Super Hard!)",
-            "Copycats (Super Hard!)",
             "Lockstep Lockdown (Super Hard!)",
             "Game Gamble: Advanced (Super Hard!)",
+        ]
+        
+    @staticmethod
+    def paprika_long_hard_challenges() -> List[str]:
+        return [
+            "Back and So Forth (Super Hard!)",
+            "Copycats (Super Hard!)",
         ]
 
 # Archipelago Options
