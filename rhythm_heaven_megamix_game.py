@@ -4,7 +4,7 @@ from typing import List
 
 from dataclasses import dataclass
 
-from Options import Toggle
+from Options import DefaultOnToggle, Toggle
 
 from ..game import Game
 from ..game_objective_template import GameObjectiveTemplate
@@ -16,6 +16,7 @@ from ..enums import KeymastersKeepGamePlatforms
 @dataclass
 class RhythmHeavenMegamixArchipelagoOptions:
     rhythm_heaven_megamix_perfects_enabled: RhythmHeavenMegamixPerfectsEnabled
+    rhythm_heaven_megamix_earth_world_enabled: RhythmHeavenMegamixEarthWorldEnabled
     rhythm_heaven_megamix_heaven_world_enabled: RhythmHeavenMegamixHeavenWorldEnabled
     rhythm_heaven_megamix_challenge_land_enabled: RhythmHeavenMegamixChallengeLandEnabled
     rhythm_heaven_megamix_shop_games_enabled: RhythmHeavenMegamixShopGamesEnabled
@@ -32,83 +33,86 @@ class RhythmHeavenMegamixGame(Game):
     options_cls = RhythmHeavenMegamixArchipelagoOptions
 
     def game_objective_templates(self) -> List[GameObjectiveTemplate]:
-        templates: List[GameObjectiveTemplate] = [
-            GameObjectiveTemplate(
-                label="Achieve RESULT in GAME",
-                data={
-                    "RESULT": (self.resultstar, 1),
-                    "GAME": (self.earth_world_games, 1),
-                },
-                is_time_consuming=False,
-                is_difficult=False,
-                weight=100,
-            ),
-            
-            GameObjectiveTemplate(
-                label="Achieve a flow of FLOW or better in GAME",
-                data={
-                    "FLOW": (self.flow_range, 1),
-                    "GAME": (self.earth_world_games, 1),
-                },
-                is_time_consuming=False,
-                is_difficult=False,
-                weight=100,
-            ),
-            
-            GameObjectiveTemplate(
-                label="Achieve RESULT in all games in SERIES",
-                data={
-                    "RESULT": (self.results, 1),
-                    "SERIES": (self.earth_world_series, 1),
-                },
-                is_time_consuming=False,
-                is_difficult=False,
-                weight=40,
-            ),
-            
-            GameObjectiveTemplate(
-                label="At the GATE, complete Saffron's trial",
-                data={
-                    "GATE": (self.gates, 1),
-                },
-                is_time_consuming=False,
-                is_difficult=False,
-                weight=20,
-            ),
-            
-            GameObjectiveTemplate(
-                label="At the GATE, complete Saltwater's trial",
-                data={
-                    "GATE": (self.gates, 1),
-                },
-                is_time_consuming=False,
-                is_difficult=False,
-                weight=20,
-            ),
-            
-            GameObjectiveTemplate(
-                label="At the GATE, complete Paprika's trial",
-                data={
-                    "GATE": (self.gates, 1),
-                },
-                is_time_consuming=False,
-                is_difficult=True,
-                weight=20,
-            ),
-        ]
-
-        if self.perfects_enabled:
+        templates: List[GameObjectiveTemplate] = []
+        
+        if self.earth_world_enabled or not (self.heaven_world_enabled or self.challenge_land_enabled or self.shop_games_enabled):
             templates.extend([
                 GameObjectiveTemplate(
-                    label="Achieve a no-miss run in GAME",
+                    label="Achieve RESULT in GAME",
                     data={
+                        "RESULT": (self.resultstar, 1),
                         "GAME": (self.earth_world_games, 1),
                     },
-                    is_time_consuming=True,
+                    is_time_consuming=False,
+                    is_difficult=False,
+                    weight=100,
+                ),
+                
+                GameObjectiveTemplate(
+                    label="Achieve a flow of FLOW or better in GAME",
+                    data={
+                        "FLOW": (self.flow_range, 1),
+                        "GAME": (self.earth_world_games, 1),
+                    },
+                    is_time_consuming=False,
+                    is_difficult=False,
+                    weight=100,
+                ),
+                
+                GameObjectiveTemplate(
+                    label="Achieve RESULT in all games in SERIES",
+                    data={
+                        "RESULT": (self.results, 1),
+                        "SERIES": (self.earth_world_series, 1),
+                    },
+                    is_time_consuming=False,
+                    is_difficult=False,
+                    weight=40,
+                ),
+                
+                GameObjectiveTemplate(
+                    label="At the GATE, complete Saffron's trial",
+                    data={
+                        "GATE": (self.gates, 1),
+                    },
+                    is_time_consuming=False,
+                    is_difficult=False,
+                    weight=20,
+                ),
+                
+                GameObjectiveTemplate(
+                    label="At the GATE, complete Saltwater's trial",
+                    data={
+                        "GATE": (self.gates, 1),
+                    },
+                    is_time_consuming=False,
+                    is_difficult=False,
+                    weight=20,
+                ),
+                
+                GameObjectiveTemplate(
+                    label="At the GATE, complete Paprika's trial",
+                    data={
+                        "GATE": (self.gates, 1),
+                    },
+                    is_time_consuming=False,
                     is_difficult=True,
                     weight=20,
                 ),
             ])
+
+            if self.perfects_enabled:
+                templates.extend([
+                    GameObjectiveTemplate(
+                        label="Achieve a no-miss run in GAME",
+                        data={
+                            "GAME": (self.earth_world_games, 1),
+                        },
+                        is_time_consuming=True,
+                        is_difficult=True,
+                        weight=20,
+                    ),
+                ])
 
         if self.heaven_world_enabled:
             templates.extend([
@@ -330,6 +334,10 @@ class RhythmHeavenMegamixGame(Game):
     @property
     def perfects_enabled(self) -> bool:
         return bool(self.archipelago_options.rhythm_heaven_megamix_perfects_enabled.value)
+
+    @property
+    def earth_world_enabled(self) -> bool:
+        return bool(self.archipelago_options.rhythm_heaven_megamix_earth_world_enabled.value)
 
     @property
     def heaven_world_enabled(self) -> bool:
@@ -620,7 +628,15 @@ class RhythmHeavenMegamixPerfectsEnabled(Toggle):
 
     display_name = "Rhythm Heaven Megamix Perfects Enabled"
 
-class RhythmHeavenMegamixHeavenWorldEnabled(Toggle):
+class RhythmHeavenMegamixEarthWorldEnabled(DefaultOnToggle):
+    """
+    Indicates whether to include Earth World levels and lands in objectives
+    Will be forced on if no levels are enabled
+    """
+    
+    display_name = "Rhythm Heaven Megamix Earth World Enabled"
+    
+class RhythmHeavenMegamixHeavenWorldEnabled(DefaultOnToggle):
     """
     Indicates whether to include Heaven World levels and lands in objectives
     """
