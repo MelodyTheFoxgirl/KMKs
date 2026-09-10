@@ -253,7 +253,7 @@ class RhythmHeavenGrooveGame(Game):
                             "GAME": (self.score_attack_games, 1),
                         },
                         is_time_consuming=False,
-                        is_difficult=True,
+                        is_difficult=False,
                         weight=10,
                     ),
                     
@@ -262,7 +262,7 @@ class RhythmHeavenGrooveGame(Game):
                         data={
                             "LESSON": (self.basic_lessons, 1),
                         },
-                        is_time_consuming=False,
+                        is_time_consuming=True,
                         is_difficult=False,
                         weight=10,
                     ),
@@ -272,7 +272,7 @@ class RhythmHeavenGrooveGame(Game):
                         data={
                             "LESSON": (self.advanced_lessons, 1),
                         },
-                        is_time_consuming=False,
+                        is_time_consuming=True,
                         is_difficult=True,
                         weight=10,
                     ),
