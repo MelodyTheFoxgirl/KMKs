@@ -389,7 +389,7 @@ class RhythmHeavenMegamixGame(Game):
             "Micro-Row (Citrus Land)",
             "First Contact (Citrus Land)",
             "Bunny Hop (Donut Land)",
-            "Airborder (Donut Land)",
+            "Airboarder (Donut Land)",
             "Exhibition Match (Donut Land)",
             "Tongue Lashing (Donut Land)",
             "Sneaky Spirits (Barbershop Land)",
@@ -442,7 +442,7 @@ class RhythmHeavenMegamixGame(Game):
         return [
             "first gate (Coin Toss)",
             "second gate (Sick Beats)",
-            "third gate (Charging Chicken",
+            "third gate (Charging Chicken)",
         ]
     
     @staticmethod
