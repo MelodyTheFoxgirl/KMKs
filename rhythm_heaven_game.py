@@ -130,7 +130,7 @@ class RhythmHeavenDSGame(Game):
         levels: List[str] = self.levels()[:]
 
         if "Airboarder" in levels:
-            levels.remove("Night Walk")
+            levels.remove("Airboarder")
 
         return levels
 
