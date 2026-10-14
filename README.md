@@ -2,6 +2,14 @@
 Melody's Keymaster's Keep implementations, mostly focusing on rhythm games, specifically the Rhythm Heaven series and such.
 
 ## Games List
+### Rhythm Heaven (NDS)
+Very simple implementation. Basically the Fever implementation someone else did with the game info and level names changed
+#### What objectives are included?
+Achieving a certain grade in a minigame or getting a Perfect (if enabled)
+#### Which objectives are considered difficult?
+Perfect runs
+#### Which objectives are considered time-consuming?
+Perfect runs
 ### Rhythm Heaven Megamix (3DS)
 Defaults to Earth World and Heaven World enabled, but Challenge Land, Shop Games, and no-miss runs can also be enabled. If no levels are enabled, Earth World is forced on
 #### What objectives are included?
